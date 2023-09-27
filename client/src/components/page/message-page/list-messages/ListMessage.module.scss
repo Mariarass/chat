@@ -1,0 +1,75 @@
+.input{
+	background: $dark;
+	border:none;
+	height: 40px;
+	color:$color-input;
+	outline: none;
+	border-radius: 8px;
+	padding: 10px;
+	width: 90%;
+}
+.userList{
+
+	height: calc(80vh - (95vh - 100%));
+	list-style: none;
+	padding: 0;
+	overflow-y: auto;
+	scrollbar-width: thin;
+	scrollbar-color: #ccc #f4f4f4;
+}
+
+.userList::-webkit-scrollbar {
+	width: 6px; /* ширина скроллера */
+}
+
+.userList::-webkit-scrollbar-track {
+	background:transparent /* цвет трека */
+}
+
+.userList::-webkit-scrollbar-thumb {
+	background-color: #4d4d69;
+	border-radius: 6px;
+}
+
+
+.userList::-webkit-scrollbar-thumb:hover {
+	background-color: #999;
+}
+.userItem{
+
+	display: flex;
+	height: 60px;
+	margin: 5px;
+	cursor: pointer;
+	border-radius: 8px;
+	align-items: center;
+	padding: 4px;
+}
+
+.userItem:hover{
+	background: #302f41;
+
+
+}
+.userPhoto{
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+.name{
+	color: rgba(193, 193, 194, 0.86);
+	font-weight: bold;
+}
+.info{
+
+	height: 100%;
+}
+.container{
+
+	padding: 10px;
+	width: 50%;
+}
+.logout{
+	background: pink;
+}
