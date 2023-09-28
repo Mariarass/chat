@@ -8,8 +8,8 @@ export default class AuthAPI {
 		return instance.post<AuthResponse>('/login', {email, password})
 	}
 
-	static async registration(email: string, password: string): Promise<AxiosResponse<AuthResponse>> {
-		return instance.post<AuthResponse>('/registration', {email, password})
+	static async registration(email: string, password: string,username:string): Promise<AxiosResponse<AuthResponse>> {
+		return instance.post<AuthResponse>('/registration', {email, password,username})
 	}
 
 	static async logout(): Promise<void> {
@@ -19,6 +19,10 @@ export default class AuthAPI {
 	static async  isAuth(){
 		return instance.get<AuthResponse>('/refresh')
 	}
+	static async  getUsers(){
+		return instance.get<AuthResponse>('/users')
+	}
+
 
 }
 

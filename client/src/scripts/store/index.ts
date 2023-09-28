@@ -1,16 +1,30 @@
 import {createStore} from "vuex";
 import AuthAPI from "@/scripts/api/auth/AuthAPI";
-import {API_URL} from "@/scripts/api/API";
-import axios from "axios";
+import UsersAPI from "@/scripts/api/users/UsersApi";
+import {IMessage, IUser} from "@/scripts/types/users/types";
+import {state} from "vue-tsc/out/shared";
 
-export default createStore({
+interface State {
+	isAuth: boolean;
+	user: IUser|null;
+	userList: IUser[];
+	currentDialogUser:IUser|null
+	isError: string
+	currentMessageList:IMessage[]
+}
+export default createStore<State>({
 	state: {
 		isAuth:false,
 		user:null,
-		isError:''
+		userList:[],
+		isError:'',
+		currentDialogUser:null,
+		currentMessageList:[]
 
 	},
-	getters: {},
+	getters: {
+
+	},
 	mutations: {
 		setIsAuth(state, isAuth) {
 			state.isAuth = isAuth;
@@ -20,13 +34,22 @@ export default createStore({
 		},
 		setIsError(state, isError) {
 			state.isError = isError;
+		},
+		setUserList(state, userList) {
+			state.userList = userList;
+		},
+		setCurrentDialogUser(state, dialogUser) {
+				state.currentDialogUser = dialogUser;
+		},
+		setCurrentMessageList(state, messages) {
+			state.currentMessageList = messages;
 		}
 	},
 	actions: {
 
-		async registerUser({ commit }, {email,password}){
+		async registerUser({ commit }, {email,password,username}){
 			try{
-				const res=await AuthAPI.registration(email,password)
+				const res=await AuthAPI.registration(email,password,username)
 				localStorage.setItem('token', res.data.accessToken);
 				commit('setIsAuth',true)
 				commit('setUser',res.data.user)
@@ -65,7 +88,7 @@ export default createStore({
 		},
 		async checkAuth({commit}){
 			try{
-				const res =await axios.get(`${API_URL}/refresh`, {withCredentials: true})
+				const res =await AuthAPI.isAuth()
 				localStorage.setItem('token', res.data.accessToken);
 				commit('setIsAuth',true)
 				commit('setUser',res.data.user)
@@ -75,7 +98,47 @@ export default createStore({
 				console.log(e)
 			}
 
-		}
+		},
+		async getUsers({commit}){
+			try{
+				const res =await UsersAPI.getUsers()
+				commit('setUserList',res.data)
+				return true
+			}
+			catch (e){
+				console.log(e)
+			}
+
+		},
+		async addMessage({commit,state},message){
+			try{
+				const from=state.user?._id
+				const to=state.currentDialogUser?._id
+				const res =await UsersAPI.addMessage(from||'',to||'',message)
+
+				//commit('setUserList',res.data)
+				return true
+			}
+			catch (e){
+				console.log(e)
+			}
+
+		},
+		async getAllMessages({commit,state}){
+			try{
+				const from=state.user?._id
+				const to=state.currentDialogUser?._id
+
+				const res =await UsersAPI.getMessages(from||'',to||'')
+				commit('setCurrentMessageList',res.data)
+				return true
+			}
+			catch (e){
+				console.log(e)
+			}
+
+		},
+
 
 
 

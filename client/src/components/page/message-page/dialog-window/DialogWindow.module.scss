@@ -6,16 +6,20 @@
 
 
 }
+.input_group{
+	display: flex!important;
+
+}
 .input{
 	background: $dark;
 	border:none;
 	height: 50px;
 	color:$color-input;
 	outline: none;
-	padding: 10px;
-	position: fixed;
-	bottom: 0;
-	width: 100%;
+	//padding: 10px;
+	//position: fixed;
+	//bottom: 0;
+	width: 100%!important;
 }
 .messageList{
 	margin: 10px;

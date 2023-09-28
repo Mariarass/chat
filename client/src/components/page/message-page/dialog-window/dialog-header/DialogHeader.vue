@@ -1,14 +1,17 @@
 <script setup lang="ts">
-	import { defineProps, defineEmits } from 'vue';
-	import s from "@/components/page/message-page/dialog-window/DialogWindow.module.scss";
 
-	const  currentUser=	{ id: 1, name: 'Иван Иванов', photo: 'https://n1s2.hsmedia.ru/6a/46/ae/6a46aeed947a183d67d1bc48211151bf/480x496_0xac120003_4430520541578509619.jpg' }
+	import s from "@/components/page/message-page/dialog-window/DialogWindow.module.scss";
+	import {useStore} from "vuex";
+	import {computed} from "vue";
+
+	const store=useStore()
+	const currentUser = computed(() => store.state.currentDialogUser);
 </script>
 
 <template>
 	<div :class="s.header">
-		<img :src="currentUser.photo" :class="s.userPhoto" />
-		<h3>{{currentUser.name}}</h3>
+		<img src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg" :class="s.userPhoto" />
+		<h3>{{currentUser.username}}</h3>
 	</div>
 
 </template>

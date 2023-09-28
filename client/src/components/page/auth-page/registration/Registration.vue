@@ -12,13 +12,16 @@ import {validationEmail, validationPassword} from "@/scripts/utils/validation";
 const store = useStore();
 const router = useRouter();
 
+const username=ref('')
 const email=ref('')
 const password=ref('')
 const confirmPassword=ref('')
 
+const userNameError=ref('')
 const emailError = ref('');
 const passwordError = ref('');
 const confirmPasswordError=ref('')
+
 
 const isVisiblePassword=ref(false)
 const isVisibleConfirmPassword=ref(false)
@@ -33,10 +36,11 @@ const  sendRegistration=async ()=>{
 	emailError.value=validationEmail(email.value)?'':'Email is wrong'
 	passwordError.value=validationPassword(password.value)?'Password must be at least 8 characters long':''
 	confirmPasswordError.value=password.value===confirmPassword.value?'':'Password does not match'
+	userNameError.value=username.value.length>1?'':'Username is req'
 
 	if(!emailError.value&&!passwordError.value&&!confirmPasswordError.value){
 		isLoading.value=true
-		const isSuccess=await store.dispatch('registerUser', {email:email.value,password:password.value})
+		const isSuccess=await store.dispatch('registerUser', {email:email.value,password:password.value,username:username.value})
 		if(isSuccess){
 			changeRout('/message')
 		}
@@ -52,6 +56,13 @@ const  sendRegistration=async ()=>{
 	<Form>
 		<Spinner v-if="isLoading"/>
 		<h3 :class="s.header">SIGN IN</h3>
+
+		<a-input
+			:class="s.input"
+			:status="userNameError&&'error'"
+			v-model:value="username"
+			placeholder="USERNAME"
+		/>
 
 		<a-input
 			:class="s.input"
