@@ -1,17 +1,22 @@
 <script setup lang="ts">
 	import { defineProps, defineEmits } from 'vue';
 
-	const props = defineProps(['value','inputStyle','placeholder']);
+	const {value,inputStyle,placeholder,type} = defineProps<{
+		value: string
+		inputStyle?: number
+		placeholder?:string
+		type?:string
+
+	}>()
 	const emits = defineEmits(['change']);
 
 	const handleChange = (event) => {
-		console.log(event)
 		emits('change', event.target.value);
 	};
 </script>
 
 <template>
-	<input :value="value" @input="handleChange" :class="inputStyle" :placeholder="placeholder" />
+	<input :value="value" @input="handleChange" :class="inputStyle" :placeholder="placeholder"  :type="type"/>
 </template>
 
 <style scoped lang="scss">

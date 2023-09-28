@@ -58,8 +58,8 @@
 	margin-right: 10px;
 }
 .name{
-	color: rgba(193, 193, 194, 0.86);
-	font-weight: bold;
+	color: white;
+	font-weight: 600;
 }
 .info{
 
@@ -71,5 +71,7 @@
 	width: 50%;
 }
 .logout{
-	background: pink;
+	cursor: pointer;
+	color: $color-input;
+
 }

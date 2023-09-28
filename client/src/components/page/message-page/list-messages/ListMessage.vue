@@ -3,8 +3,11 @@
 	import { ref, computed } from 'vue'
 	import Input from "@/components/ui/input/Input.vue";
 	import { useRouter } from 'vue-router';
-
+	import {useStore} from "vuex";
+	import { LogoutOutlined } from '@ant-design/icons-vue';
 	const router = useRouter();
+	const store = useStore();
+
 	const searchQuery = ref('');
 
 	const users = [
@@ -22,9 +25,19 @@
 	const filteredUsers = computed(() => {
 		return users.filter(user => user.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
 	});
-	const logout=()=>{
-		router.replace( '/login')
+
+	const changeRout=(rout:string)=>{
+		router.replace( rout)
 	}
+	const logout=async ()=>{
+		console.log('LOG')
+		const isSuccess= await store.dispatch('logout')
+		if(isSuccess){
+			changeRout( '/login')
+		}
+
+	}
+
 
 </script>
 
@@ -40,7 +53,8 @@
 			</li>
 		</ul>
 		<div :class="s.logout" @click="logout()">
-			logout
+			LOGOUT
+			<LogoutOutlined />
 		</div>
 
 	</div>

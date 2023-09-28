@@ -6,7 +6,6 @@
 	"main": "build/electron/main.js",
 	"private": true,
 	"license": "MIT",
-
 	"keywords": [
 		"electron",
 		"electron-quick-start",
@@ -26,6 +25,9 @@
 		"make:release": "node ./cmd/modules/release/index.js"
 	},
 	"dependencies": {
+		"@ant-design/icons-vue": "^7.0.0",
+		"ant-design-vue": "^4.0.3",
+		"axios": "^1.5.1",
 		"vue": "^3.3.4",
 		"vue-router": "^4.2.5",
 		"vuex": "^4.1.0"

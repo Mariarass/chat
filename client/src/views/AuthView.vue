@@ -11,11 +11,20 @@ const isLoginRoute = computed(() => route.name === 'login');
 </script>
 
 <template>
-  <div>
+  <div class="auth-page">
 
 		<Login v-if="isLoginRoute"/>
 		<Registration v-else/>
 
   </div>
 </template>
+<style scoped>
+
+.auth-page{
+	display: flex;
+	justify-content: center;
+	align-items:  center;
+	height: 100vh;
+}
+</style>
 

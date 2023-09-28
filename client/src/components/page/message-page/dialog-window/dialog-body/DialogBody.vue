@@ -1,6 +1,6 @@
 <script setup lang="ts">
 	import s from "@/components/page/message-page/dialog-window/DialogWindow.module.scss";
-
+	const  currentUser=	null
 	const currentMessage=[
 		{id:1, owner:true,message:'hellohelhellohellohellohell hellohellohellohellohello hellohell ohelloohellohellohellohello lohellohellohellohellohellohello',time:new Date()},
 		{id:1, owner:false,message:'hehellohellohellollo',time:new Date()},
@@ -19,7 +19,7 @@
 </script>
 
 <template>
-	<ul :class="s.messageList">
+	<ul :class="s.messageList" v-if="currentUser!=null">
 		<li v-for="user in currentMessage" :key="user.id" :class="user.owner?s.myMessageItem:s.userMessageItem">
 			<div v-if="user.owner"  :class="s.messageContainer" >
 				<div>
@@ -52,6 +52,9 @@
 
 		</li>
 	</ul>
+	<div v-else :class="s.select">
+		Select user
+	</div>
 </template>
 
 <style scoped lang="scss">
