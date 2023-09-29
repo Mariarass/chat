@@ -11,13 +11,14 @@ const changeRout=(rout:string)=>{
 }
 
 onMounted(async ()=>{
-	console.log('hello')
+
 	if (localStorage.getItem('token')) {
 	const isSuccess =await store.dispatch('checkAuth')
 		if(isSuccess){
 			changeRout( '/message')
 		}
 }})
+
 
 
 </script>

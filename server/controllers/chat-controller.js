@@ -30,6 +30,7 @@ class ChatController {
                 return {
                     fromSelf: msg.sender.toString() === from,
                     message: msg.message.text,
+                    time:msg.createdAt
                 };
             });
             res.json(projectedMessages);

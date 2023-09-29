@@ -21,6 +21,18 @@
 	//bottom: 0;
 	width: 100%!important;
 }
+.button{
+	height: 100%;
+	background: $dark;
+	outline: none;
+	border: none;
+	svg{
+		color: white;
+	}
+}
+.button:focus{
+	outline: none;
+}
 .messageList{
 	margin: 10px;
 	height: calc(80vh - (95vh - 100%));
@@ -101,6 +113,11 @@
 	}
 
 }
+
+.time{
+	font-size: 13px;
+	color: #8a81d6;
+}
 .info{
 margin: 0 10px;
 
@@ -118,11 +135,14 @@ margin: 0 10px;
 	gap :10px;
 	align-items: center;
 	padding:10px;
+	h3{
+		color: #abaed0;
+	}
 
 }
 .select{
 	width: 100%;
-
+color: #a4a5d5;
 	height: 100%;
 	display: flex;
 	justify-content: center;

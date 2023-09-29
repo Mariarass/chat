@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import AuthAPI from "@/scripts/api/auth/AuthAPI";
 import UsersAPI from "@/scripts/api/users/UsersApi";
 import {IMessage, IUser} from "@/scripts/types/users/types";
-import {state} from "vue-tsc/out/shared";
+
 
 interface State {
 	isAuth: boolean;
@@ -11,6 +11,8 @@ interface State {
 	currentDialogUser:IUser|null
 	isError: string
 	currentMessageList:IMessage[]
+	arrivedMessage:string[],
+	online:[]
 }
 export default createStore<State>({
 	state: {
@@ -19,7 +21,9 @@ export default createStore<State>({
 		userList:[],
 		isError:'',
 		currentDialogUser:null,
-		currentMessageList:[]
+		currentMessageList:[],
+		arrivedMessage:[],
+		online:[]
 
 	},
 	getters: {
@@ -43,7 +47,19 @@ export default createStore<State>({
 		},
 		setCurrentMessageList(state, messages) {
 			state.currentMessageList = messages;
-		}
+		},
+		setArrivedMessage(state, data) {
+			console.log('delete')
+			console.log(data)
+			if (!state.arrivedMessage.includes(data.id)&&data.uniq) {
+				state.arrivedMessage = [...state.arrivedMessage, data.id];
+			}else{
+				state.arrivedMessage = state.arrivedMessage.filter(id => id !== data.id)
+			}
+		},
+		setOnlineList(state, list) {
+			state.online = list;
+		},
 	},
 	actions: {
 
@@ -99,10 +115,12 @@ export default createStore<State>({
 			}
 
 		},
-		async getUsers({commit}){
+		async getUsers({commit,state}){
 			try{
-				const res =await UsersAPI.getUsers()
-				commit('setUserList',res.data)
+				if(state.user){
+					const res =await UsersAPI.getUsers(state.user._id)
+					commit('setUserList',res.data)
+				}
 				return true
 			}
 			catch (e){
@@ -110,13 +128,18 @@ export default createStore<State>({
 			}
 
 		},
-		async addMessage({commit,state},message){
+		async addMessage({commit,state}, message){
 			try{
 				const from=state.user?._id
 				const to=state.currentDialogUser?._id
 				const res =await UsersAPI.addMessage(from||'',to||'',message)
-
-				//commit('setUserList',res.data)
+				if(res){
+					commit('setCurrentMessageList',[...state.currentMessageList,{
+						_id: Math.random(),
+						fromSelf:true,
+						message,
+						time:new Date()}])
+				}
 				return true
 			}
 			catch (e){

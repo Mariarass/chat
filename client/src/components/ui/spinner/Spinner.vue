@@ -28,6 +28,7 @@
 	align-items: center;
 	justify-content: center;
 	background: #ffffff30;
+	z-index: 100	;
 
 }
 .sk-chase {

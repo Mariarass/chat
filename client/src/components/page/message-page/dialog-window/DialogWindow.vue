@@ -1,36 +1,76 @@
 <script setup lang="ts">
-import DialogHeader
-	from "@/components/page/message-page/dialog-window/dialog-header/DialogHeader.vue";
+import DialogHeader from "@/components/page/message-page/dialog-window/dialog-header/DialogHeader.vue";
 import DialogBody from "@/components/page/message-page/dialog-window/dialog-body/DialogBody.vue";
 import s from './DialogWindow.module.scss'
-
 import { SendOutlined, } from '@ant-design/icons-vue';
-
-import {computed, ref} from "vue";
+import {computed, ref, watchEffect,watch} from "vue";
 import {useStore} from "vuex";
-
+import {IUser} from "@/scripts/types/users/types";
+import Alert from "@/components/ui/alert/Alert.vue";
 
 const message=ref('')
+const notification=ref(false)
 const store=useStore()
-const currentUser = computed(() => store.state.currentDialogUser);
-const sendMessage=async ()=>{
-	await store.dispatch('addMessage',message.value)
+const {socket}=defineProps(['socket'])
+
+const currentUser = computed(():IUser|null => store.state.currentDialogUser);
+const currentDialog = computed(() => store.state.currentMessageList);
+const user = computed(():IUser|null => store.state.user);
+
+const changeNotification=(value:boolean)=>{
+	notification.value=value
+	setTimeout(()=>{
+		console.log('hello')
+		notification.value=false
+	},2000)
 }
+const sendMessage=async ()=>{
+	if(message.value.length>0){
+
+		await store.dispatch('addMessage',message.value)
+
+		socket.emit('send-message',{
+			to:currentUser.value?._id,
+			from:user.value?._id,
+			message:message.value
+		})
+		message.value=''
+	}
+
+}
+
+socket.on('message-receive',async (data)=>{
+
+	changeNotification(true)
+	console.log('data',data)
+	console.log('my',user.value?._id)
+	console.log('currentDIalog',currentUser.value?._id)
+	if(currentUser.value?._id===data.from){
+		await store.commit('setCurrentMessageList', [...currentDialog.value,{_id: Math.random(),
+			fromSelf:false,
+			message:data.message,
+			time:new Date()}])}
+	else{
+		await store.commit('setArrivedMessage',{id:data.from,uniq:true})
+	}
+})
+
+
 
 </script>
 
 <template>
 	<div :class="s.container">
 		<DialogHeader v-if="currentUser"/>
-		<DialogBody/>
-
+		<DialogBody />
 		<a-input-group compact v-if="currentUser" :class="s.input_group">
-			<a-input :class="s.input" v-model:value="message" style="width: calc(100% - 200px)"  placeholder="Your message"  />
-				<a-button @click="sendMessage()">
+			<a-input @keydown.enter="sendMessage()" :class="s.input" v-model:value="message" style="width: calc(100% - 200px)"   placeholder="Your message"  />
+				<a-button @click="sendMessage()" :class="s.button" >
 					<template #icon><SendOutlined /></template>
 				</a-button>
 		</a-input-group>
 
 	</div>
+	<Alert  v-if="notification" text="New message" />
 </template>
 

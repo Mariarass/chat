@@ -20,6 +20,7 @@
     "mongodb": "^6.1.0",
     "mongoose": "^7.5.3",
     "nodemailer": "^6.9.5",
+    "socket.io": "^4.7.2",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

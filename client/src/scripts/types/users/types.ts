@@ -8,7 +8,7 @@ export interface IMessage {
 	_id: string;
 	fromSelf:boolean
 	message: string;
-	time:string;
+	time:Date;
 }
 
 

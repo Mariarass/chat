@@ -1,42 +1,50 @@
 <script setup lang="ts">
 	import s from "@/components/page/message-page/dialog-window/DialogWindow.module.scss";
 	import {useStore} from "vuex";
-	import {computed} from "vue";
+	import {computed, onMounted, ref, watch} from "vue";
+	import {IMessage, IUser} from "@/scripts/types/users/types";
+
+	const scrollRef = ref<HTMLElement | null>(null);
 
 	const store=useStore()
-	const currentUser = computed(() => store.state.currentDialogUser);
-	const currentMessage = computed(() => store.state.currentMessageList);
+	const currentUser = computed(():IUser|null => store.state.currentDialogUser);
+	const currentMessage = computed(():IMessage[] => store.state.currentMessageList);
+	const messageList = computed(()=> store.state.currentMessageList);
 
+	watch(messageList, (newValue, oldValue) => {
+		scrollRef.value?.scrollIntoView({ behavior: "smooth",block: 'end', inline: 'nearest' })
+	});
+	onMounted(()=>
+		scrollRef.value?.scrollIntoView({ behavior: "smooth",block: 'end', inline: 'nearest' }))
 
-	const myInfo={photo:'https://static.1tv.ru/uploads/photo/image/2/huge/4062_huge_876c41f50e.jpg'}
 </script>
 
 <template>
-	<ul :class="s.messageList" v-if="currentUser!=null">
-		<li v-for="message in currentMessage" :key="message.id" :class="message.fromSelf?s.myMessageItem:s.userMessageItem">
+	<ul :class="s.messageList" v-if="currentUser!=null&&currentMessage.length!=0">
+		<li v-for="message in currentMessage" :key="message.id" :class="message.fromSelf?s.myMessageItem:s.userMessageItem"  >
 			<div v-if="message.fromSelf"  :class="s.messageContainer" >
 				<div>
 					<div  :class="s.myMessage" >
-						<span :class="s.name">You</span>
 						<p>{{message.message}}</p>
 					</div>
-<!--					{{ String(user.time.getHours()).padStart(2, '0') }}:-->
-<!--					{{ String(user.time.getMinutes()).padStart(2, '0') }}-->
-
+					<span :class="s.time" >
+							{{ String(new Date(message.time).getHours()).padStart(2, '0') }}:
+							{{ String(new Date(message.time).getMinutes()).padStart(2, '0') }}
+					</span>
 				</div>
 
-				<img :src="myInfo.photo" :class="s.userPhoto" />
 			</div>
 
 			<div v-else  :class="s.messageContainer" >
-				<img :src="myInfo.photo" :class="s.userPhoto" />
 				<div>
 					<div  :class="s.userMessage" >
-						<span :class="s.name">{{ currentUser.username }}</span>
 						<p>{{message.message}}</p>
 					</div>
-<!--					{{ String(user.time.getHours()).padStart(2, '0') }}:-->
-<!--					{{ String(user.time.getMinutes()).padStart(2, '0') }}-->
+					<span :class="s.time">
+							{{ String(new Date(message.time).getHours()).padStart(2, '0') }}:
+							{{ String(new Date(message.time).getMinutes()).padStart(2, '0') }}
+					</span>
+
 				</div>
 
 
@@ -44,9 +52,11 @@
 
 
 		</li>
+		<div ref="scrollRef" >
+		</div>
 	</ul>
 	<div v-else-if="currentUser!=null&&currentMessage.length===0" :class="s.select">
-		no messages yet
+		No messages yet. Say hello !
 	</div>
 	<div v-else :class="s.select">
 		Select user
