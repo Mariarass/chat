@@ -7,30 +7,30 @@
  */
 
 function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {
-    return new Promise((resolve) => {
-        if (condition.includes(document.readyState)) {
-            resolve(true)
-        } else {
-            document.addEventListener('readystatechange', () => {
-                if (condition.includes(document.readyState)) {
-                    resolve(true)
-                }
-            })
-        }
-    })
+	return new Promise((resolve) => {
+		if (condition.includes(document.readyState)) {
+			resolve(true)
+		} else {
+			document.addEventListener('readystatechange', () => {
+				if (condition.includes(document.readyState)) {
+					resolve(true)
+				}
+			})
+		}
+	})
 }
 
 const safeDOM = {
-    append(parent: HTMLElement, child: HTMLElement) {
-        if (!Array.from(parent.children).find(e => e === child)) {
-            return parent.appendChild(child)
-        }
-    },
-    remove(parent: HTMLElement, child: HTMLElement) {
-        if (Array.from(parent.children).find(e => e === child)) {
-            return parent.removeChild(child)
-        }
-    },
+	append(parent: HTMLElement, child: HTMLElement) {
+		if (!Array.from(parent.children).find(e => e === child)) {
+			return parent.appendChild(child)
+		}
+	},
+	remove(parent: HTMLElement, child: HTMLElement) {
+		if (Array.from(parent.children).find(e => e === child)) {
+			return parent.removeChild(child)
+		}
+	},
 }
 
 /**
@@ -39,7 +39,7 @@ const safeDOM = {
  * https://matejkustec.github.io/SpinThatShit
  */
 function useLoading() {
-    const className = `<div class="sk-chase">
+	const className = `<div class="sk-chase">
   <div class="sk-chase-dot"></div>
   <div class="sk-chase-dot"></div>
   <div class="sk-chase-dot"></div>
@@ -47,7 +47,7 @@ function useLoading() {
   <div class="sk-chase-dot"></div>
   <div class="sk-chase-dot"></div>
 </div>`
-    const styleContent = `
+	const styleContent = `
 	 .sk-chase {
 
 		width: 20px;
@@ -117,24 +117,24 @@ function useLoading() {
 			z-index: 9;
 		}
 				`
-    const oStyle = document.createElement('style')
-    const oDiv = document.createElement('div')
+	const oStyle = document.createElement('style')
+	const oDiv = document.createElement('div')
 
-    oStyle.id = 'app-loading-style'
-    oStyle.innerHTML = styleContent
-    oDiv.className = 'app-loading-wrap'
-    oDiv.innerHTML = `<div class="${className}"><div></div></div>`
+	oStyle.id = 'app-loading-style'
+	oStyle.innerHTML = styleContent
+	oDiv.className = 'app-loading-wrap'
+	oDiv.innerHTML = `<div class="${className}"><div></div></div>`
 
-    return {
-        appendLoading() {
-            safeDOM.append(document.head, oStyle)
-            safeDOM.append(document.body, oDiv)
-        },
-        removeLoading() {
-            safeDOM.remove(document.head, oStyle)
-            safeDOM.remove(document.body, oDiv)
-        },
-    }
+	return {
+		appendLoading() {
+			safeDOM.append(document.head, oStyle)
+			safeDOM.append(document.body, oDiv)
+		},
+		removeLoading() {
+			safeDOM.remove(document.head, oStyle)
+			safeDOM.remove(document.body, oDiv)
+		},
+	}
 }
 
 // ----------------------------------------------------------------------
@@ -148,16 +148,15 @@ let timeout = false;
 
 
 setTimeout(() => {
-    timeout = true;
-    appLoaded && removeLoading();
+	timeout = true;
+	appLoaded && removeLoading();
 }, 4999);
 
 
 window.onmessage = (event) => {
-    if (event.data.payload === 'removeLoading') {
-        appLoaded = true;
+	if (event.data.payload === 'removeLoading') {
+		appLoaded = true;
 
-        timeout && removeLoading();
-    }
+		timeout && removeLoading();
+	}
 };
-

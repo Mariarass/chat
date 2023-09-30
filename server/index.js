@@ -7,7 +7,7 @@ const router = require('./router/index')
 const errorMiddleware = require('./middlewares/error-middleware');
 const socket = require("socket.io");
 
-const PORT = process.env.PORT || 5000;
+
 const app = express()
 
 app.use(express.json());
@@ -54,12 +54,7 @@ io.on("connection", (socket) => {
         io.emit("online-users-list", onlineUserIds);
     }
     socket.on("add-user", (userId) => {
-        console.log('ONLINE')
-        console.log('userId',userId)
-        console.log('socket.id',socket.id)
-
         onlineUsers.set(userId, socket.id);
-        console.log(onlineUsers)
         sendOnlineUsersList()
 
     });
@@ -73,17 +68,27 @@ io.on("connection", (socket) => {
     });
 
     socket.on("send-message", (data) => {
-        console.log('data',data)
-        console.log('onlineuser,',onlineUsers)
 
+        if (data.isGeneralChat) {
+            // Отправляем сообщение всем пользователям онлайн
+            onlineUsers.forEach((socketId) => {
+                socket.to(socketId).emit("message-receive", {
+                    message: data.message,
+                    from: data.from,
+                    to: null
+                });
+            });
+        } else {
+            // Если чат не групповой, то отправляем только указанному пользователю
+            const sendUserSocket = onlineUsers.get(data.to);
 
-        const sendUserSocket = onlineUsers.get(data.to);
-        console.log('find кому отправить ',sendUserSocket)
-
-
-        if (sendUserSocket) {
-
-            socket.to(sendUserSocket).emit("message-receive", {message:data.message,from:data.from,to:data.to});
+            if (sendUserSocket) {
+                socket.to(sendUserSocket).emit("message-receive", {
+                    message: data.message,
+                    from: data.from,
+                    to: data.to
+                });
+            }
         }
 
     });

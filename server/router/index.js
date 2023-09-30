@@ -1,6 +1,6 @@
 const Router = require('express').Router;
 const userController = require('../controllers/user-controller');
-const chatController=require('../controllers/chat-controller')
+const chatController=require('../controllers/message-controller')
 const router = new Router();
 const {body} = require('express-validator');
 const authMiddleware = require('../middlewares/auth-middleware');
@@ -13,8 +13,9 @@ router.post('/registration',
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/refresh', userController.refresh);
-router.get('/users/:id', authMiddleware, userController.getUsers);
+router.get('/users/:id', userController.getUsers);
 router.post("/addmsg/", chatController.addMessage);
 router.post("/getmsg/", chatController.getAllMessage);
+router.post("/get_general_msg/", chatController.getAllGeneralChatMessage);
 
 module.exports = router

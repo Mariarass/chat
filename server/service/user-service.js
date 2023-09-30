@@ -44,7 +44,7 @@ class UserService {
     }
 
     async refresh(refreshToken) {
-        console.log('redreshcontoller',refreshToken)
+
         if (!refreshToken) {
             throw ApiError.UnauthorizedError();
         }
@@ -71,7 +71,8 @@ class UserService {
             "username",
             "_id",
         ]);
-        console.log(users)
+
+
         return users;
     }
 }

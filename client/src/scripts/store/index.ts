@@ -11,8 +11,9 @@ interface State {
 	currentDialogUser:IUser|null
 	isError: string
 	currentMessageList:IMessage[]
-	arrivedMessage:string[],
+	arrivedMessage:string[]
 	online:[]
+	isGeneralChat:boolean
 }
 export default createStore<State>({
 	state: {
@@ -23,7 +24,8 @@ export default createStore<State>({
 		currentDialogUser:null,
 		currentMessageList:[],
 		arrivedMessage:[],
-		online:[]
+		online:[],
+		isGeneralChat:false
 
 	},
 	getters: {
@@ -46,11 +48,10 @@ export default createStore<State>({
 				state.currentDialogUser = dialogUser;
 		},
 		setCurrentMessageList(state, messages) {
+			console.log(messages)
 			state.currentMessageList = messages;
 		},
 		setArrivedMessage(state, data) {
-			console.log('delete')
-			console.log(data)
 			if (!state.arrivedMessage.includes(data.id)&&data.uniq) {
 				state.arrivedMessage = [...state.arrivedMessage, data.id];
 			}else{
@@ -59,6 +60,9 @@ export default createStore<State>({
 		},
 		setOnlineList(state, list) {
 			state.online = list;
+		},
+		setIsGeneralChat(state, value) {
+			state.isGeneralChat = value;
 		},
 	},
 	actions: {
@@ -132,13 +136,16 @@ export default createStore<State>({
 			try{
 				const from=state.user?._id
 				const to=state.currentDialogUser?._id
-				const res =await UsersAPI.addMessage(from||'',to||'',message)
+				const isGeneralChat=state.isGeneralChat
+				const res =await UsersAPI.addMessage(from||'',to||'',message,isGeneralChat)
 				if(res){
 					commit('setCurrentMessageList',[...state.currentMessageList,{
 						_id: Math.random(),
 						fromSelf:true,
 						message,
-						time:new Date()}])
+						time:new Date(),
+						sender:from
+					}])
 				}
 				return true
 			}
@@ -152,8 +159,14 @@ export default createStore<State>({
 				const from=state.user?._id
 				const to=state.currentDialogUser?._id
 
-				const res =await UsersAPI.getMessages(from||'',to||'')
-				commit('setCurrentMessageList',res.data)
+				if(state.isGeneralChat){
+					const res =await UsersAPI.getGeneralMessages(from||'')
+					commit('setCurrentMessageList',res.data)
+				}
+				else{
+					const res =await UsersAPI.getMessages(from||'',to||'')
+					commit('setCurrentMessageList',res.data)
+				}
 				return true
 			}
 			catch (e){
@@ -168,3 +181,15 @@ export default createStore<State>({
 	},
 	modules: {},
 });
+// import {createStore} from "vuex";
+// import Auth from "@/scripts/store/auth/auth-store";
+// import Chat from "@/scripts/store/chat/chat-store";
+//
+// const store = createStore({
+// 	modules: {
+// 		auth: Auth,
+// 		chat: Chat
+// 	}
+// })
+//
+// export default store

@@ -9,6 +9,8 @@ export interface IMessage {
 	fromSelf:boolean
 	message: string;
 	time:Date;
+	sender?:string
+
 }
 
 

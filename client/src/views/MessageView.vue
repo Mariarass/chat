@@ -18,18 +18,11 @@
 	});
 	socket.on("online-users-list", (onlineUserIds) => {
 		store.commit('setOnlineList',onlineUserIds)
-
 		console.log("Список онлайн пользователей:", onlineUserIds);
 	});
 
 	onMounted(()=>{
-		console.log('user',user)
-		if(user.value){
-			addUser()
-		}
-		else{
-			router.replace( '/login')
-		}
+		user.value?addUser():router.replace( '/login')
 	})
 
 	onUnmounted(()=>{
@@ -37,7 +30,7 @@
 	})
 
 	watch(user,()=>{
-		addUser()
+		if(user.value!=null) addUser()
 	})
 
 	const addUser=()=>{

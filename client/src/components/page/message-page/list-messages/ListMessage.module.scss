@@ -6,14 +6,21 @@
 	outline: none;
 	border-radius: 8px;
 	padding: 10px;
-	width: 90%;
+	width: 100%;
 }
 .common{
-	background: red;
+	height: 50px;
+	color: white;
+	font-size: 14px;
+	padding: 14px;
+	margin-top: 10px;
+	background: #3b363f;
+	border-radius: 10px;
+	cursor: pointer;
 }
 .userList{
 
-	height: calc(80vh - (95vh - 100%));
+	height: calc(80vh - (102vh - 100%));
 	list-style: none;
 	padding: 0;
 	overflow-y: auto;
@@ -85,6 +92,9 @@
 .logout{
 	cursor: pointer;
 	color: $color-input;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 
 }
 .unread{
