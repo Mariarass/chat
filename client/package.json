@@ -1,6 +1,6 @@
 {
 	"name": "chat",
-	"author":"Maria",
+	"author": "Maria",
 	"productName": "Chat",
 	"version": "0.1.0",
 	"description": "Your awesome app description",
@@ -21,10 +21,10 @@
 	"scripts": {
 		"start": "npm run dev",
 		"dev": "vite dev",
-		"build": "cp package.vercel.json package.json && npm install && vue-tsc && vite build",
+		"build": "vue-tsc && vite build",
 		"build-app": "vue-tsc && vite build && electron-builder",
 		"preview": "vite preview",
-		"make:release": "node ./cmd/modules/release/index.js"
+		"serve": "vite --host --mode host"
 	},
 	"dependencies": {
 		"@ant-design/icons-vue": "^7.0.0",
