@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
-    origin: [process.env.CLIENT_URL, `http://127.0.0.1:3678`]
+    origin: [process.env.CLIENT_URL, `http://127.0.0.1:3678`,`https://chat-kappa-two.vercel.app/`]
 }));
 app.use('/api', router);
 app.use(errorMiddleware);
@@ -40,7 +40,7 @@ const server = app.listen(process.env.PORT, () =>
 
 const io = socket(server, {
     cors: {
-        origin: [process.env.CLIENT_URL, `http://127.0.0.1:3678`],
+        origin: [process.env.CLIENT_URL, `http://127.0.0.1:3678`,`https://chat-kappa-two.vercel.app/`],
         credentials: true,
     },
 });
