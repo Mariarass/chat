@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 	import ListMessages from '../components/page/message-page/list-messages/ListMessage.vue';
 	import DialogWindow from "@/components/page/message-page/dialog-window/DialogWindow.vue";
 	import {computed, onMounted, watch,onUnmounted} from "vue";
@@ -12,7 +12,7 @@
 	const user = computed(() => store.state.user);
 
 
-	const socket = io('http://localhost:5000')
+	const socket = io(import.meta.env.VITE_API_URL)
 	socket.on("connect", () => {
 		console.log('Успешное подключение');
 	});

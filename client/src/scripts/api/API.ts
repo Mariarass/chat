@@ -1,6 +1,6 @@
 import axios from "axios";
 import {AuthResponse} from "@/scripts/types/auth/types";
-export const API_URL = `http://localhost:5000/api`
+export const API_URL = `${import.meta.env.VITE_API_URL}/api`
 
 const instance = axios.create({
 	withCredentials: true,

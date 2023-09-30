@@ -20,7 +20,8 @@
 	"scripts": {
 		"start": "npm run dev",
 		"dev": "vite dev",
-		"build": "vue-tsc && vite build && electron-builder",
+		"build": "vue-tsc && vite build",
+		"build-app": "vue-tsc && vite build && electron-builder",
 		"preview": "vite preview",
 		"make:release": "node ./cmd/modules/release/index.js"
 	},
