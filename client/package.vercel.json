@@ -4,7 +4,6 @@
 	"productName": "Chat",
 	"version": "0.1.0",
 	"description": "Your awesome app description",
-	"main": "build/electron/main.js",
 	"private": true,
 	"license": "MIT",
 	"keywords": [
@@ -21,10 +20,9 @@
 	"scripts": {
 		"start": "npm run dev",
 		"dev": "vite dev",
-		"build": "cp package.vercel.json package.json && npm install && vue-tsc && vite build",
-		"build-app": "vue-tsc && vite build && electron-builder",
-		"preview": "vite preview",
-		"make:release": "node ./cmd/modules/release/index.js"
+		"build": "vue-tsc && vite build",
+		"preview": "vite preview"
+
 	},
 	"dependencies": {
 		"@ant-design/icons-vue": "^7.0.0",
