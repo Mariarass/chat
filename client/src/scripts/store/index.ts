@@ -2,6 +2,9 @@ import {createStore} from "vuex";
 import AuthAPI from "@/scripts/api/auth/AuthAPI";
 import UsersAPI from "@/scripts/api/users/UsersApi";
 import {IMessage, IUser} from "@/scripts/types/users/types";
+import axios from "axios";
+import {AuthResponse} from "@/scripts/types/auth/types";
+import {API_URL} from "@/scripts/api/API";
 interface State {
 	isAuth: boolean;
 	user: IUser|null;
@@ -111,7 +114,7 @@ export default createStore<State>({
 		},
 		async checkAuth({commit}){
 			try{
-				const res =await AuthAPI.isAuth()
+				const res =await axios.get<AuthResponse>(`${API_URL}/refresh`,{withCredentials:true})
 				localStorage.setItem('token', res.data.accessToken);
 				commit('setIsAuth',true)
 				commit('setUser',res.data.user)

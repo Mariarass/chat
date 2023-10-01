@@ -13,7 +13,7 @@ router.post('/registration',
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/refresh', userController.refresh);
-router.get('/users/:id', userController.getUsers);
+router.get('/users/:id',authMiddleware, userController.getUsers);
 router.post("/addmsg/", chatController.addMessage);
 router.post("/getmsg/", chatController.getAllMessage);
 router.post("/get_general_msg/", chatController.getAllGeneralChatMessage);
