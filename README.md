@@ -1,5 +1,5 @@
 ## How to Run the "Chat"
-To run the "Chat" project, you'll need to follow a few steps. The project consists of both server-side and client-side components, which need to be started separately. Below are the instructions for running the project as a whole and for running each part individually.
+To run the "Chat" project, you'll need to follow a few steps. The project consists of both server-side and client-side components, which need to be started separately.
 
 
 Application is hosted on a remote server: http://192.34.59.216:3678

@@ -19,10 +19,6 @@ app.use(cors({
 app.use('/api', router);
 app.use(errorMiddleware);
 
-
-
-
-
 mongoose
     .connect(process.env.DB_URL, {
         useNewUrlParser: true,
