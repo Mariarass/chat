@@ -1,7 +1,6 @@
 <script setup lang="ts">
 	import s from './ListMessage.module.scss';
 	import {ref, computed, onMounted} from 'vue'
-	import Input from "@/components/ui/input/Input.vue";
 	import { useRouter } from 'vue-router';
 	import {useStore} from "vuex";
 	import { LogoutOutlined } from '@ant-design/icons-vue';
@@ -19,10 +18,16 @@
 		await store.dispatch('getUsers')
 	})
 
-	const userList = computed(() => store.state.userList);
+	const userList = computed(() => {
+		return store.state.userList
+	});
 	const filteredUsers = computed(() => {
+
 		return userList.value.filter(user => user.username.toLowerCase().includes(searchQuery.value.toLowerCase()));
 	});
+
+	const currentDialog = computed(() => store.state.currentDialogUser);
+	const isGeneralChat = computed(() => store.state.isGeneralChat);
 
 	const changeRout=(rout:string)=>{
 		router.replace( rout)
@@ -59,8 +64,13 @@
 </script>
 
 <template>
-	<div :class="s.container">
-		<Input :class="s.input" :value="searchQuery"  @change="(value)=>searchQuery=value" placeholder="Search"/>
+	<div  :class="[s.container,{'list-container': currentDialog!=null||isGeneralChat}]" >
+		<a-input
+			:class="s.input"
+			v-model:value="searchQuery"
+			placeholder="Search"
+		/>
+
 		<div :class="s.common" @click="getGeneralMessage()">
 			<WechatOutlined />
 			common chat
@@ -84,5 +94,11 @@
 </template>
 
 <style scoped lang="scss">
+@media (max-width: 600px) {
+	.list-container {
+		background:mediumvioletred ;
+		display: none;
+	}
 
+}
 </style>

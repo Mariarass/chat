@@ -43,7 +43,7 @@ const sendLogin=async ()=>{
 
 	<Form>
 		<Spinner v-if="isLoading"/>
-		<h3 :class="s.header">LOGIN</h3>
+		<h3 :class="s.header">SIGN IN</h3>
 
 		<a-input
 			:class="s.input"

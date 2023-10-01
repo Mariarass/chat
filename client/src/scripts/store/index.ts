@@ -2,8 +2,6 @@ import {createStore} from "vuex";
 import AuthAPI from "@/scripts/api/auth/AuthAPI";
 import UsersAPI from "@/scripts/api/users/UsersApi";
 import {IMessage, IUser} from "@/scripts/types/users/types";
-
-
 interface State {
 	isAuth: boolean;
 	user: IUser|null;
@@ -13,7 +11,8 @@ interface State {
 	currentMessageList:IMessage[]
 	arrivedMessage:string[]
 	online:[]
-	isGeneralChat:boolean
+	isGeneralChat:boolean,
+	isLoading:boolean
 }
 export default createStore<State>({
 	state: {
@@ -25,7 +24,8 @@ export default createStore<State>({
 		currentMessageList:[],
 		arrivedMessage:[],
 		online:[],
-		isGeneralChat:false
+		isGeneralChat:false,
+		isLoading:false
 
 	},
 	getters: {
@@ -64,6 +64,9 @@ export default createStore<State>({
 		setIsGeneralChat(state, value) {
 			state.isGeneralChat = value;
 		},
+		setIsLoading(state, value) {
+			state.isLoading = value;
+				},
 	},
 	actions: {
 
@@ -158,7 +161,7 @@ export default createStore<State>({
 			try{
 				const from=state.user?._id
 				const to=state.currentDialogUser?._id
-
+				commit('setIsLoading',true)
 				if(state.isGeneralChat){
 					const res =await UsersAPI.getGeneralMessages(from||'')
 					commit('setCurrentMessageList',res.data)
@@ -172,24 +175,32 @@ export default createStore<State>({
 			catch (e){
 				console.log(e)
 			}
+			finally {
+				commit('setIsLoading',false)
+			}
 
 		},
 
 
 
 
-	},
-	modules: {},
+	}
 });
-// import {createStore} from "vuex";
-// import Auth from "@/scripts/store/auth/auth-store";
-// import Chat from "@/scripts/store/chat/chat-store";
+
+// import {createStore,Store} from "vuex";
+// import Auth, {AuthState} from "@/scripts/store/auth/auth-store";
+// import Chat, {ChatState} from "@/scripts/store/chat/chat-store";
 //
-// const store = createStore({
+// interface RootState {
+// 	auth: AuthState;
+// 	chat: ChatState;
+// }
+// const store = createStore<RootState>({
 // 	modules: {
 // 		auth: Auth,
 // 		chat: Chat
 // 	}
 // })
+// export type StoreType = Store<RootState>;
 //
 // export default store

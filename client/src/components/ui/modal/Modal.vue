@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import {useStore} from "vuex";
 import {computed,ref} from "vue";
-import { notification } from 'ant-design-vue';
-
 const store = useStore();
 const  {title}=defineProps(['title'])
-const isError = computed(()=> {
-	console.log(store)
-	return store.state.isError
-}) ;
+const isError = computed(()=> store.state.isError) ;
 
 const message = ref('Notification Title');
 const description = ref('description');

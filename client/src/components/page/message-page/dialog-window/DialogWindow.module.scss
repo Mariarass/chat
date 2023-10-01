@@ -153,3 +153,35 @@ color: #a4a5d5;
 	justify-content: center;
 	align-items: center;
 }
+.back{
+	outline: none;
+	border: none;
+	display: none;
+	border-radius: 66px;
+	height: 37px;
+	width: 29px;
+}
+.back:focus{
+	outline: none;
+}
+.container_header{
+	display: flex;
+	align-items: center;
+	margin-left: 10px;
+}
+
+.spinner{
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+@media (max-width: 600px) {
+	.back {
+		display: flex;
+		justify-content: center;
+		background: transparent;
+		border: 1px solid #463f4d;
+	}
+
+}

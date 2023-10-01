@@ -12,6 +12,7 @@
 	const user = computed(() => store.state.user);
 
 
+
 	const socket = io(import.meta.env.VITE_API_URL)
 	socket.on("connect", () => {
 		console.log('Успешное подключение');
@@ -41,7 +42,8 @@
 </script>
 <template>
   <div class="message-page">
-		<ListMessages/>
+
+		<ListMessages />
 		<DialogWindow :socket="socket"/>
 	</div>
 </template>
@@ -52,4 +54,15 @@
 		display: flex;
 		height: 100%;
 	}
+	@media (max-width: 500px) {
+		.list-container {
+			background:mediumvioletred ;
+			display: none; /* Скрываем ListMessages при ширине экрана менее 500 пикселей */
+		}
+		.dialog-container{
+			display: none;
+		}
+	}
+
+
 </style>

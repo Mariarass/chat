@@ -55,7 +55,6 @@ class UserController {
 
     async getUsers(req, res, next) {
         try {
-            console.log('getuser')
             const users = await userService.getAllUsers(req.params.id);
 
             return res.json(users);

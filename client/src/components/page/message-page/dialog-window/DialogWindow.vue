@@ -71,7 +71,7 @@ socket.on('message-receive',async (data)=>{
 </script>
 
 <template>
-	<div :class="s.container">
+	<div :class="[s.container,{'dialog-container': !(currentUser || isGeneralChat)}]" >
 		<DialogHeader v-if="currentUser||isGeneralChat"/>
 		<DialogBody />
 		<a-input-group compact v-if="currentUser||isGeneralChat" :class="s.input_group">
@@ -84,4 +84,11 @@ socket.on('message-receive',async (data)=>{
 	</div>
 	<Alert  v-if="notification" text="New message" />
 </template>
+<style scoped>
+@media (max-width: 600px) {
+	.dialog-container{
+		display: none;
+	}
+}
+</style>
 

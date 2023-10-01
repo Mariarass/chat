@@ -3,11 +3,12 @@ import { Module } from 'vuex';
 import {IMessage, IUser} from "@/scripts/types/users/types";
 import UsersAPI from "@/scripts/api/users/UsersApi";
 
-interface ChatState {
+export interface ChatState {
 	currentDialogUser:IUser|null
 	currentMessageList:IMessage[]
 	arrivedMessage:string[]
 	isGeneralChat:boolean
+	isLoading:boolean
 }
 const Chat: Module<ChatState, any> = {
 
@@ -15,7 +16,8 @@ const Chat: Module<ChatState, any> = {
 		currentDialogUser:null,
 		currentMessageList:[],
 		arrivedMessage:[],
-		isGeneralChat:false
+		isGeneralChat:false,
+		isLoading:false
 	}),
 	mutations: {
 		setCurrentDialogUser(state, dialogUser) {
@@ -33,6 +35,9 @@ const Chat: Module<ChatState, any> = {
 			}
 		},
 		setIsGeneralChat(state, value) {
+			state.isGeneralChat = value;
+		},
+		setIsLoading(state, value) {
 			state.isGeneralChat = value;
 		},
 	},

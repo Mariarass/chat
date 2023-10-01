@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
-    origin: [process.env.CLIENT_URL, `http://127.0.0.1:3678`,`https://chat-kappa-two.vercel.app/`]
+    origin: [process.env.CLIENT_URL_LOCAL,process.env.CLIENT_URL_REMOTE,process.env.CLIENT_URL]
 }));
 app.use('/api', router);
 app.use(errorMiddleware);
@@ -27,7 +27,7 @@ mongoose
         useUnifiedTopology: true,
     })
     .then(() => {
-        console.log("DB Connetion Successfull");
+        console.log("DB Connection Success");
     })
     .catch((err) => {
         console.log(err.message);
@@ -40,7 +40,7 @@ const server = app.listen(process.env.PORT, () =>
 
 const io = socket(server, {
     cors: {
-        origin: [process.env.CLIENT_URL, `http://127.0.0.1:3678`,`https://chat-kappa-two.vercel.app/`],
+        origin: [process.env.CLIENT_URL_LOCAL,process.env.CLIENT_URL_REMOTE,process.env.CLIENT_URL],
         credentials: true,
     },
 });

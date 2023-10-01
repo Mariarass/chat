@@ -3,11 +3,12 @@ import {  IUser } from "@/scripts/types/users/types";
 import AuthAPI from "@/scripts/api/auth/AuthAPI";
 import UsersAPI from "@/scripts/api/users/UsersApi";
 
-interface AuthState {
+export interface AuthState {
 	isAuth: boolean;
 	user: IUser | null;
 	isError: string;
-	online: any[]; // Замените any на подходящий тип
+	online: string[];
+	userList: [],
 }
 const Auth: Module<AuthState, any> = {
 
@@ -32,6 +33,9 @@ const Auth: Module<AuthState, any> = {
 
 		setOnlineList(state, list) {
 			state.online = list;
+		},
+		setUserList(state, userList) {
+			state.userList = userList;
 		},
 
 	},

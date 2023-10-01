@@ -55,7 +55,7 @@ const  sendRegistration=async ()=>{
 <template>
 	<Form>
 		<Spinner v-if="isLoading"/>
-		<h3 :class="s.header">SIGN IN</h3>
+		<h3 :class="s.header">SIGN UP</h3>
 
 		<a-input
 			:class="s.input"
