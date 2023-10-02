@@ -2,7 +2,7 @@
 To run the "Chat" project, you'll need to follow a few steps. The project consists of both server-side and client-side components, which need to be started separately.
 
 
-Application is hosted on a remote server: http://192.34.59.216:3678
+
 
 In `server` and `client` folders create `.env` file base on `.env.example`
 ## Running the Server-Side Part
